@@ -88,6 +88,7 @@ var project = {
     },
 
     planetas: function(){
+        project.generateStars();
         project.getPages("planetas");
         project.setMetaTag("planetas");
         project.controlClass();
@@ -127,15 +128,39 @@ var project = {
 
     viagem: function () {
 
+        var btnNavegar = document.querySelector(".start");
+
+        btnNavegar.classList.remove("on-screen");
+
         var allStars = document.querySelectorAll(".stars");
 
-        /* allStars.forEach(element => {
-            setInterval(() => {
-                element.style.left = "0";
-            }, 5000);
-        }); */
+        const x = window.innerWidth/2;
+        const y = window.innerHeight/2;
+        const v = 10;
 
-        project.planetas();
+        console.log(`Eixo X: ${x}, Eixo Y: ${y}`)
+        
+        for(let i = 0; i < allStars.length; i++){
+            var str = allStars[i].style.left;
+            var j = str.search(/px/i);
+            str = str.slice(0, j)
+            str = parseInt(str);
+            var t = x - str;
+
+            allStars[i].animate({
+                "left": x + "px", // Distancia
+                "top": y + "px"
+            }, Math.abs(t)*4); // Tempo
+
+            setTimeout(() => {
+                allStars[i].style.display = "none";
+            }, Math.abs(t)*4,);
+        }
+
+        setTimeout(() => {
+            project.planetas();
+        }, 3 * 1000);
+
     }
 
 }
